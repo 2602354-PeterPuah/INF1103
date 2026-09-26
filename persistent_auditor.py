@@ -21,11 +21,14 @@ def load_inventory():
 
 def get_valid_inputs():
     failed_entries = 0
+    quantity = 0
+    current_transaction = []
+
     while True:
         product_name = input("Enter Product Name (or quit): ")
         
         if product_name.lower() == "quit":
-            return "quit", failed_entries
+            return 1, current_transaction
 
         quantity = input("Enter Quantity: ")
 
@@ -36,20 +39,25 @@ def get_valid_inputs():
 
         quantity = int(quantity)
 
-        transaction_history = []
         transaction = [product_name, quantity]
-        transaction_history.append(str(transaction) + "\n")
-
-        return transaction_history, failed_entries
+        current_transaction.append(transaction)
 
 
-def generate_report(name, quantity):
+def generate_report(transaction):
     print("New orders added: \n")
+    for item in transaction:
+        print(item[0] + ",", item[1])
 
 while True:
     inventory_history = load_inventory()
     for line in inventory_history:
-        print(line.strip(   )) 
-    product, failed_entries = get_valid_inputs()
+        print(line.strip())
+    
+    quit_status, transaction_info = get_valid_inputs()
+
+    if quit_status == 1:
+        break
+
+generate_report(transaction_info)
 
 
