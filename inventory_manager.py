@@ -1,12 +1,16 @@
 import json
 
-inventory = [
-    {"ID": "P001", "Name": "Laptop", "Price": 1200.00, "Stock": 15},
-    {"ID": "P002", "Name": "Mouse", "Price": 25.50, "Stock": 40}
-]
+def load_inventory():
+    with open("inventory.json", "r") as file:
+        inventory = json.load(file)
+
+    print("========================================")
+    print("INVENTORY MANAGEMENT SYSTEM")
+    print("========================================")
+    return inventory
 
 def get_menu_selection():
-    print("----------- MENU ----------")
+    print("\n----------- MENU ----------")
     print("1. Display All Product")
     print("2. Add Product")
     print("3. Update Stock")
@@ -18,47 +22,68 @@ def get_menu_selection():
     menu_user_input = int(input("Enter option: "))
     return menu_user_input
 
-def load_inventory():
-    with open("inventory.json", "r") as file:
-        inventory = json.load(file)
-    
+def display_all(inventory):
+    print("\nCurrent Inventory")
+    print("------------------------------------------------")
     for product in inventory:
         print(f"ID: {product['ID']} | Name: {product['Name']} | Price: ${product['Price']:.2f} | Stock: {product['Stock']}")
+    print("------------------------------------------------")
 
-def add_product():
-    return 1
+def add_product(inventory):
+    print("\nAdd New Product")
+    product_id = input("Product ID: ")
+    product_name = input("Product Name: ")
+    product_price = input("Product Price: ")
+    product_quantity = input("Stock Quantity: ")
 
-def update_stock():
-    return 2
+    new_product = {
+        "ID": product_id,
+        "Name": product_name,
+        "Price": float(product_price),
+        "Stock": int(product_quantity)
+    }
 
-def search_product():
-    return 3
+    inventory.append(new_product)
+    print("Product added successsfully!")
+
+    return inventory
+
+def update_stock(inventory):
+    print("\nUpdate Stock")
+    get_id = input("Enter Product ID: ")
+
+    for product in inventory:
+        if product["ID"] == get_id:
+            print("\nProduct Found:")
+            print("Name:", product["Name"])
+            print("Current Stock:", product["Stock"])
+
+            get_new_quantity = int(input("\nNew Stock Quantity: "))
+            product["Stock"] = get_new_quantity
+            print("Stock updated successfully!")
+    return inventory
+
+def search_product(inventory):
+    print("\nSearch Product")
+    get_id = input("Enter Product ID: ")
     
-def display_all():
-    return 4
+    for product in inventory:
+        if product["ID"] == get_id:
+            print("\nProduct Found:")
+            print("-----------------------------------------------")
+            print("ID:", product["ID"])
+            print("Name:", product["Name"])
+            print("Price:", product["Price"])
+            print("Current Stock:", product["Stock"])
+            print("-----------------------------------------------")
+    
+def save_inventory(inventory):
+    print("\nSaving inventory...")
 
-#output list of transaction history
-# def load_inventory():
-#     # Create the file if it does not exist
-#     with open("inventory.txt", "a") as file:
-#         pass
+    with open("inventory.json", "w") as file:
+        json.dump(inventory, file)
 
-#     # Read the file
-#     with open("inventory.txt", "r") as file:
-#         lines = file.readlines()
-
-#         if len(lines) == 0:
-#             return [], 1001
-
-#         transaction_history = lines[0:]
-#         last_order_id = int(transaction_history[-1][0:4])
-#         return transaction_history, last_order_id
-
-# def save_inventory(transaction_info):
-#     with open("inventory.txt", "a") as file:
-#         for item in transaction_info:
-#             file.write("\n" + str(item[0]) + ", " + item[1] + ", " + str(item[2]))
-#         print("Order successfully saved to inventory.txt.")
+    print("Inventory saved successfully to inventory.json.")
 
 # def get_valid_inputs(last_order_id):
 #     failed_entries = 0
@@ -85,34 +110,20 @@ def display_all():
 #         transaction = [last_order_id, product_name, quantity]
 #         current_transaction.append(transaction)
 
-
-# def generate_report(transaction):
-#     print("New orders added:")
-#     for item in transaction:
-#         print(str(item[0]) + ",", item[1] + ",", str(item[2]))
+inventory = load_inventory()
 
 while True:
-    print("========================================\n")
-    print("INVENTORY MANAGEMENT SYSTEM\n")
-    print("========================================\n")
-
     menu_user_input = get_menu_selection()
 
     if menu_user_input == 1:
-        load_inventory()
-        break
+        display_all(inventory)
+    elif menu_user_input == 2:
+        inventory = add_product(inventory)
+    elif menu_user_input == 3:
+        inventory = update_stock(inventory)
+    elif menu_user_input == 4:
+        inventory = search_product(inventory)
+    elif menu_user_input == 5:
+        save_inventory(inventory)
 
-    break
 
-    # inventory_history, last_order_id = load_inventory()
-    # for line in inventory_history:
-    #     print(line.strip())
-    
-    # quit_status, transaction_info = get_valid_inputs(last_order_id)
-
-    # if quit_status == 1:
-    #     break
-
-# generate_report(transaction_info)
-# save_inventory(transaction_info)
-print("hi")
