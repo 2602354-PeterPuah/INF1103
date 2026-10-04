@@ -1,4 +1,5 @@
 import json
+exit_status = 0
 
 def load_inventory():
     with open("inventory.json", "r") as file:
@@ -36,6 +37,11 @@ def add_product(inventory):
     product_price = input("Product Price: ")
     product_quantity = input("Stock Quantity: ")
 
+    for product in inventory:
+        if product["ID"] == product_id:
+            print("Invalid input. Product ID already exists.")
+            return inventory
+
     new_product = {
         "ID": product_id,
         "Name": product_name,
@@ -66,7 +72,8 @@ def update_stock(inventory):
 def search_product(inventory):
     print("\nSearch Product")
     get_id = input("Enter Product ID: ")
-    
+    found = False
+
     for product in inventory:
         if product["ID"] == get_id:
             print("\nProduct Found:")
@@ -76,6 +83,11 @@ def search_product(inventory):
             print("Price:", product["Price"])
             print("Current Stock:", product["Stock"])
             print("-----------------------------------------------")
+            found = True
+            break
+
+    if found == False:
+        print("Product not found.")
     
 def save_inventory(inventory):
     print("\nSaving inventory...")
@@ -85,30 +97,17 @@ def save_inventory(inventory):
 
     print("Inventory saved successfully to inventory.json.")
 
-# def get_valid_inputs(last_order_id):
-#     failed_entries = 0
-#     quantity = 0
-#     current_transaction = []
+def exit_program(inventory):
+    print("\nSaving inventory before exit..")
+    print("Inventory saved successfully")
 
-#     while True:
-#         product_name = input("Enter Product Name (or quit): ")
-        
-#         if product_name.lower() == "quit":
-#             return 1, current_transaction
+    with open("inventory.json", "w") as file:
+        json.dump(inventory, file)
+    
+    print("\nThank you for using Inventory Management System")
+    print("Program terminated")
 
-#         quantity = input("Enter Quantity: ")
-
-#         if not quantity.isdigit():
-#             print("Invalid input. Please enter a non-negative integer.")
-#             failed_entries += 1
-#             continue
-
-#         quantity = int(quantity)
-
-#         last_order_id += 1
-
-#         transaction = [last_order_id, product_name, quantity]
-#         current_transaction.append(transaction)
+    return 1
 
 inventory = load_inventory()
 
@@ -122,8 +121,13 @@ while True:
     elif menu_user_input == 3:
         inventory = update_stock(inventory)
     elif menu_user_input == 4:
-        inventory = search_product(inventory)
+        search_product(inventory)
     elif menu_user_input == 5:
         save_inventory(inventory)
+    elif menu_user_input == 6:
+        exit_status = exit_program(inventory)
+    else: 
+        continue
 
-
+    if exit_status == 1:
+        break

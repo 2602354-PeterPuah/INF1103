@@ -1,4 +1,4 @@
 FROM python:3.14.7
 WORKDIR /app
-COPY auditor.py .
-CMD ["python", "auditor.py"]
+COPY inventory_manager.py .
+CMD ["python", "inventory_manager.py"]
