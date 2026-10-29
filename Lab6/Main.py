@@ -1,3 +1,3 @@
-class Product:
-    def __init__(self):
-        pass
+from product import Product
+from inventory import Inventory
+
