@@ -41,5 +41,10 @@ def main():
             continue
 
 if __name__ == "__main__":
-    digital_product = DigitalProduct("P007", "Windows Software", 150, 20, 500)
-    digital_product.display_information()
+    physical = PhysicalProduct("P001", "Guitar", 1500, 10, 3.5)
+    digital = DigitalProduct("P002", "Software", 100, 20, 500)
+    product = Product("P003", "Toy", 2, 10)
+
+    print(physical.get_fulfilment_info())
+    print(digital.get_fulfilment_info())
+    print(product.display_information())

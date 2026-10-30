@@ -7,4 +7,7 @@ class DigitalProduct(Product):
 
     def display_information(self):
         super().display_information()
-        print(f"Weight: {self.__download_size}mb\n")
+        print(f"Weight: {self.__download_size}MB\n")
+
+    def get_fulfilment_info(self):
+        return "Product is delivered digitally."
