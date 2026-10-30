@@ -1,5 +1,6 @@
 from product import Product
 from inventory import Inventory
+from physical_product import PhysicalProduct
 
 from file_handling import load_inventory, save_inventory
 
@@ -39,4 +40,5 @@ def main():
             continue
 
 if __name__ == "__main__":
-    main()
+    physical_product = PhysicalProduct("P006", "Guitar", 1500, 10, 3.5)
+    physical_product.display_information()

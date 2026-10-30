@@ -33,5 +33,5 @@ class Product:
             f"ID: {self.__product_id} \n"
             f"Name: {self.__name} \n"
             f"Price: ${self.__price:.2f} \n"
-            f"Stock: {self.__stock} \n"
+            f"Stock: {self.__stock}"
         )
