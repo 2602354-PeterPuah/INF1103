@@ -41,10 +41,8 @@ def main():
             continue
 
 if __name__ == "__main__":
-    physical = PhysicalProduct("P001", "Guitar", 1500, 10, 3.5)
-    digital = DigitalProduct("P002", "Software", 100, 20, 500)
-    product = Product("P003", "Toy", 2, 10)
+    product1 = PhysicalProduct("P001", "Guitar", 1500, 10, 3.5)
+    product2 = PhysicalProduct("P002", "Laptop", 1200, 15, 2.0)
 
-    print(physical.get_fulfilment_info())
-    print(digital.get_fulfilment_info())
-    print(product.display_information())
+    print("Guitar Shipping Cost: $", product1.calculate_shipping_cost())
+    print("Laptop Shipping Cost: $", product2.calculate_shipping_cost())
