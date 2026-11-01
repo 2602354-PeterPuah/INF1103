@@ -1,4 +1,5 @@
-from product import Product
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
 
 class Inventory:
     def __init__(self, inventory):
@@ -12,27 +13,52 @@ class Inventory:
     
     def add_product(self):
         print("\nAdd New Product")
+
         product_id = input("Product ID: ")
-        product_name = input("Product Name: ")
-        product_price = input("Product Price: ")
-        product_quantity = input("Stock Quantity: ")
 
         for product in self.__inventory:
             if product.get_product_id() == product_id:
                 print("Invalid input. Product ID already exists.")
-                return self.__inventory
+                return
 
-        new_product = Product(
-            product_id,
-            product_name,
-            float(product_price),
-            int(product_quantity)
-        )
+        product_name = input("Product Name: ")
+        product_price = float(input("Product Price: "))
+        product_quantity = int(input("Stock Quantity: "))
+
+        print("\nSelect Product Type")
+        print("1. Physical Product")
+        print("2. Digital Product\n")
+
+        product_type = input("Enter option: ")
+
+        if product_type == "1":
+            weight = float(input("\nProduct Weight (kg): "))
+
+            new_product = PhysicalProduct(
+                product_id,
+                product_name,
+                product_price,
+                product_quantity,
+                weight
+            )
+
+        elif product_type == "2":
+            download_size = float(input("\nDownload Size (MB): "))
+
+            new_product = DigitalProduct(
+                product_id,
+                product_name,
+                product_price,
+                product_quantity,
+                download_size
+            )
+
+        else:
+            print("Invalid product type.")
+            return
 
         self.__inventory.append(new_product)
-        print("Product added successsfully!")\
-            
-        return self.__inventory
+        print("Product added successfully!")
 
     def search_product(self):
         print("\nSearch Product")

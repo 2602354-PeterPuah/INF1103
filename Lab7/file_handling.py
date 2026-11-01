@@ -1,6 +1,7 @@
 import json
 from inventory import Inventory
-from product import Product
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
 
 def load_inventory():
     try:    
@@ -10,20 +11,36 @@ def load_inventory():
         product_list = []
 
         for product_data in inventory:
-            product = Product(
-                product_data["ID"],
-                product_data["Name"],
-                product_data["Price"],
-                product_data["Stock"]
-            )
+            if product_data["Type"] == "physical":
+                product = PhysicalProduct(
+                    product_data["ID"],
+                    product_data["Name"],
+                    product_data["Price"],
+                    product_data["Stock"],
+                    product_data["Weight"]
+                )
+
+            elif product_data["Type"] == "digital":
+                product = DigitalProduct(
+                    product_data["ID"],
+                    product_data["Name"],
+                    product_data["Price"],
+                    product_data["Stock"],
+                    product_data["DownloadSize"]
+                )
+
+            else:
+                print("Unknown product type. Skipping product.")
+                continue
 
             product_list.append(product)
+
 
         inventory = Inventory(product_list)
 
     except:
         print("inventory.json is empty.")
-        inventory = Inventory([])
+        return
 
     print("========================================")
     print("INVENTORY MANAGEMENT SYSTEM")
@@ -44,9 +61,17 @@ def save_inventory(inventory):
             "Stock": product.get_stock()
         }
 
+        if product.get_product_type() == "physical":
+            product_data["Type"] = "physical"
+            product_data["Weight"] = product.get_weight()
+
+        elif product.get_product_type() == "digital":
+            product_data["Type"] = "digital"
+            product_data["DownloadSize"] = product.get_download_size()
+
         inventory_data.append(product_data)
 
     with open("inventory.json", "w") as file:
-        json.dump(inventory_data, file)
+        json.dump(inventory_data, file, indent=4)
 
     print("Inventory saved successfully to inventory.json.")

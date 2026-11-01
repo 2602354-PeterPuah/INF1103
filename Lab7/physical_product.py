@@ -6,6 +6,9 @@ class PhysicalProduct(Product, CanBeShipped):
         super().__init__(product_id, name, price, stock)
         self.__weight = float(weight)
 
+    def get_weight(self):
+        return self.__weight
+
     def display_information(self):
         super().display_information()
         print(f"Weight: {self.__weight}kg\n")
@@ -17,4 +20,5 @@ class PhysicalProduct(Product, CanBeShipped):
         shipping_cost = self.__weight * 2
         return shipping_cost
 
-    
+    def get_product_type(self):
+        return "physical"

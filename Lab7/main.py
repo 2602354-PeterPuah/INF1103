@@ -41,8 +41,4 @@ def main():
             continue
 
 if __name__ == "__main__":
-    product1 = PhysicalProduct("P001", "Guitar", 1500, 10, 3.5)
-    product2 = PhysicalProduct("P002", "Laptop", 1200, 15, 2.0)
-
-    print("Guitar Shipping Cost: $", product1.calculate_shipping_cost())
-    print("Laptop Shipping Cost: $", product2.calculate_shipping_cost())
+    main()
