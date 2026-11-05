@@ -2,6 +2,7 @@ from product import Product
 from inventory import Inventory
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
+from supplier import Supplier
 
 from file_handling import load_inventory, save_inventory
 
@@ -41,4 +42,20 @@ def main():
             continue
 
 if __name__ == "__main__":
-    main()
+    supplier = Supplier("S001", "ABC Electronics", "abc@email.com")
+
+    physical = PhysicalProduct(
+        "P001", "Guitar", 1500, 10, 3.5, supplier
+    )
+
+    digital = DigitalProduct(
+        "P002", "Software", 100, 20, 500, supplier
+    )
+
+    del supplier
+
+    print("Physical Product Supplier:")
+    physical.display_supplier_information()
+
+    print("\nDigital Product Supplier:")
+    digital.display_supplier_information()
