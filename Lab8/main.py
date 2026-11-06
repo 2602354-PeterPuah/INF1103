@@ -44,18 +44,27 @@ def main():
 if __name__ == "__main__":
     supplier = Supplier("S001", "ABC Electronics", "abc@email.com")
 
-    physical = PhysicalProduct(
+    product = PhysicalProduct(
         "P001", "Guitar", 1500, 10, 3.5, supplier
     )
 
-    digital = DigitalProduct(
-        "P002", "Software", 100, 20, 500, supplier
-    )
+    inventory_A = Inventory([])
+    inventory_B = Inventory([])
 
-    del supplier
+    print("\nAdding product to Inventory A:")
+    inventory_A.add_product(product)
 
-    print("Physical Product Supplier:")
-    physical.display_supplier_information()
+    print("\nRemoving product from Inventory A:")
+    inventory_A.remove_product("P001")
 
-    print("\nDigital Product Supplier:")
-    digital.display_supplier_information()
+    print("\nTesting product after removal:")
+    product.display_information()
+
+    print("\nAdding same product to Inventory B:")
+    inventory_B.add_product(product)
+
+    print("\nInventory A:")
+    inventory_A.display_all()
+
+    print("\nInventory B:")
+    inventory_B.display_all()

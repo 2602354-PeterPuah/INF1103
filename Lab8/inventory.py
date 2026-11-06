@@ -1,81 +1,41 @@
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
+from product import Product
 
 class Inventory:
-    def __init__(self, inventory):
-        self.__inventory = inventory
+    def __init__(self, inventory: list[Product]):
+        self.__inventory: list[Product] = inventory
 
     def store_product(self):
         pass
 
-    def get_inventory(self):
+    def get_inventory(self) -> list[Product]:
         return self.__inventory
     
-    def add_product(self):
-        print("\nAdd New Product")
-
-        product_id = input("Product ID: ")
-
-        for product in self.__inventory:
-            if product.get_product_id() == product_id:
+    def add_product(self, product: Product) -> None:
+        for existing_product in self.__inventory:
+            if existing_product.get_product_id() == product.get_product_id():
                 print("Invalid input. Product ID already exists.")
                 return
 
-        product_name = input("Product Name: ")
-        product_price = float(input("Product Price: "))
-        product_quantity = int(input("Stock Quantity: "))
-
-        print("\nSelect Product Type")
-        print("1. Physical Product")
-        print("2. Digital Product\n")
-
-        product_type = input("Enter option: ")
-
-        if product_type == "1":
-            weight = float(input("\nProduct Weight (kg): "))
-
-            new_product = PhysicalProduct(
-                product_id,
-                product_name,
-                product_price,
-                product_quantity,
-                weight
-            )
-
-        elif product_type == "2":
-            download_size = float(input("\nDownload Size (MB): "))
-
-            new_product = DigitalProduct(
-                product_id,
-                product_name,
-                product_price,
-                product_quantity,
-                download_size
-            )
-
-        else:
-            print("Invalid product type.")
-            return
-
-        self.__inventory.append(new_product)
+        self.__inventory.append(product)
         print("Product added successfully!")
 
-    def search_product(self):
-        print("\nSearch Product")
-        get_id = input("Enter Product ID: ")
-        found = False
-    
+    def remove_product(self, product_id: str) -> None:
         for product in self.__inventory:
-            if product.get_product_id() == get_id:
-                print("\nProduct Found:")
-                print("-----------------------------------------------")
-                product.display_information()
-                print("-----------------------------------------------")
-                found = True
-                break
-    
-        if found == False:
-            print("Product not found.")
+            if product.get_product_id() == product_id:
+                self.__inventory.remove(product)
+                print("Product removed successfully!")
+                return
+
+        print("Product not found.")
+
+    def find_product(self, product_id: str) -> Product | None:
+        for product in self.__inventory:
+            if product.get_product_id() == product_id:
+                return product
+
+        return None
 
     def display_all(self):
         print("\nCurrent Inventory")
