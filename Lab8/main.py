@@ -3,6 +3,7 @@ from inventory import Inventory
 from physical_product import PhysicalProduct
 from digital_product import DigitalProduct
 from supplier import Supplier
+from order import Order
 
 from file_handling import load_inventory, save_inventory
 
@@ -42,29 +43,46 @@ def main():
             continue
 
 if __name__ == "__main__":
+    # Create Supplier
     supplier = Supplier("S001", "ABC Electronics", "abc@email.com")
 
-    product = PhysicalProduct(
+    # Create Products
+    physical = PhysicalProduct(
         "P001", "Guitar", 1500, 10, 3.5, supplier
     )
 
-    inventory_A = Inventory([])
-    inventory_B = Inventory([])
+    digital = DigitalProduct(
+        "P002", "Software", 100, 20, 500, supplier
+    )
 
-    print("\nAdding product to Inventory A:")
-    inventory_A.add_product(product)
+    # Create Orders
+    order1 = Order("O001")
+    order2 = Order("O002")
 
-    print("\nRemoving product from Inventory A:")
-    inventory_A.remove_product("P001")
+    # Add Products to Order 1
+    order1.add_order_line(physical, 2)
+    order1.add_order_line(digital, 3)
 
-    print("\nTesting product after removal:")
-    product.display_information()
+    # Add the same Product to Order 2
+    order2.add_order_line(physical, 1)
 
-    print("\nAdding same product to Inventory B:")
-    inventory_B.add_product(product)
+    # Display Order 1
+    print("\nOrder 1:")
+    order1.display_order_lines()
+    print(f"Total: ${order1.calculate_total():.2f}")
 
-    print("\nInventory A:")
-    inventory_A.display_all()
+    # Display Order 2
+    print("\nOrder 2:")
+    order2.display_order_lines()
+    print(f"Total: ${order2.calculate_total():.2f}")
 
-    print("\nInventory B:")
-    inventory_B.display_all()
+    # Remove one OrderLine from Order 1
+    order1.remove_order_line("P001")
+
+    print("\nOrder 1 after removal:")
+    order1.display_order_lines()
+    print(f"Total: ${order1.calculate_total():.2f}")
+
+    # Check that original Product still exists
+    print("\nOriginal Product:")
+    physical.display_information()
