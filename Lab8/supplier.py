@@ -9,3 +9,11 @@ class Supplier():
         print(f"Supplier Name: {self.__name}")
         print(f"Contact Email: {self.__contact_email}")
 
+    def get_supplier_id(self) -> str:
+        return self.__supplier_id
+
+    def get_name(self) -> str:
+        return self.__name
+
+    def get_contact_email(self) -> str:
+        return self.__contact_email

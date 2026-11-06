@@ -7,7 +7,7 @@ from order import Order
 
 from file_handling import load_inventory, save_inventory
 
-def get_menu_selection():
+def get_menu_selection() -> int:
     print("\n----------- MENU ----------")
     print("1. Display All Product")
     print("2. Add Product")
@@ -19,9 +19,45 @@ def get_menu_selection():
 
     menu_user_input = int(input("Enter option: "))
     return menu_user_input
-    
-def main():
+
+def create_product() -> Product | None:
+    print("\nAdd New Product")
+
+    product_id = input("Product ID: ")
+    name = input("Product Name: ")
+    price = float(input("Product Price: "))
+    stock = int(input("Stock Quantity: "))
+
+    supplier_id = input("Supplier ID: ")
+    supplier_name = input("Supplier Name: ")
+    supplier_email = input("Supplier Email: ")
+
+    supplier = Supplier(supplier_id, supplier_name, supplier_email)
+
+    print("\n1. Physical Product")
+    print("2. Digital Product")
+    product_type = input("Select Product Type: ")
+
+    if product_type == "1":
+        weight = float(input("Weight (kg): "))
+        return PhysicalProduct(
+            product_id, name, price, stock, weight, supplier
+        )
+
+    elif product_type == "2":
+        download_size = float(input("Download Size (MB): "))
+        return DigitalProduct(
+            product_id, name, price, stock, download_size, supplier
+        )
+
+    print("Invalid product type.")
+    return None
+
+def main() -> None:
     inventory = load_inventory()
+
+    if inventory is None:
+        inventory = Inventory([])
     
     while True:
         menu_user_input = get_menu_selection()
@@ -29,11 +65,14 @@ def main():
         if menu_user_input == 1:
             inventory.display_all()
         elif menu_user_input == 2:
-            inventory.add_product()
+            new_product = create_product()
+
+            if new_product is not None:
+                inventory.add_product(new_product)
         elif menu_user_input == 3:
             inventory.update_stock()
         elif menu_user_input == 4:
-            inventory.search_product()
+            inventory.find_product()
         elif menu_user_input == 5:
             save_inventory(inventory)
         elif menu_user_input == 6:
@@ -41,48 +80,6 @@ def main():
         else: 
             print("Invalid choice. Please enter 1 to 6.")
             continue
-
+            
 if __name__ == "__main__":
-    # Create Supplier
-    supplier = Supplier("S001", "ABC Electronics", "abc@email.com")
-
-    # Create Products
-    physical = PhysicalProduct(
-        "P001", "Guitar", 1500, 10, 3.5, supplier
-    )
-
-    digital = DigitalProduct(
-        "P002", "Software", 100, 20, 500, supplier
-    )
-
-    # Create Orders
-    order1 = Order("O001")
-    order2 = Order("O002")
-
-    # Add Products to Order 1
-    order1.add_order_line(physical, 2)
-    order1.add_order_line(digital, 3)
-
-    # Add the same Product to Order 2
-    order2.add_order_line(physical, 1)
-
-    # Display Order 1
-    print("\nOrder 1:")
-    order1.display_order_lines()
-    print(f"Total: ${order1.calculate_total():.2f}")
-
-    # Display Order 2
-    print("\nOrder 2:")
-    order2.display_order_lines()
-    print(f"Total: ${order2.calculate_total():.2f}")
-
-    # Remove one OrderLine from Order 1
-    order1.remove_order_line("P001")
-
-    print("\nOrder 1 after removal:")
-    order1.display_order_lines()
-    print(f"Total: ${order1.calculate_total():.2f}")
-
-    # Check that original Product still exists
-    print("\nOriginal Product:")
-    physical.display_information()
+    main()

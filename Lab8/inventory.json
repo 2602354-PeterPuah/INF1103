@@ -4,6 +4,11 @@
         "Name": "Guitar",
         "Price": 1500.0,
         "Stock": 10,
+        "Supplier": {
+            "ID": "S001",
+            "Name": "Music Supplier",
+            "Email": "music@example.com"
+        },
         "Type": "physical",
         "Weight": 3.5
     },
@@ -12,6 +17,11 @@
         "Name": "Software",
         "Price": 100.0,
         "Stock": 20,
+        "Supplier": {
+            "ID": "S002",
+            "Name": "Software Supplier",
+            "Email": "software@example.com"
+        },
         "Type": "digital",
         "DownloadSize": 500.0
     },
@@ -20,6 +30,11 @@
         "Name": "VS Code",
         "Price": 40.0,
         "Stock": 3,
+        "Supplier": {
+            "ID": "S002",
+            "Name": "Software Supplier",
+            "Email": "software@example.com"
+        },
         "Type": "digital",
         "DownloadSize": 10000.0
     },
@@ -28,7 +43,25 @@
         "Name": "Toy",
         "Price": 3.0,
         "Stock": 9,
+        "Supplier": {
+            "ID": "S003",
+            "Name": "Toy Supplier",
+            "Email": "toys@example.com"
+        },
         "Type": "physical",
         "Weight": 0.3
+    },
+    {
+        "ID": "P005",
+        "Name": "Toy Cat",
+        "Price": 3.2,
+        "Stock": 3,
+        "Supplier": {
+            "ID": "S003",
+            "Name": "Toy Supplier",
+            "Email": "toys@example.com"
+        },
+        "Type": "physical",
+        "Weight": 0.1
     }
 ]

@@ -6,7 +6,7 @@ class Inventory:
     def __init__(self, inventory: list[Product]):
         self.__inventory: list[Product] = inventory
 
-    def store_product(self):
+    def store_product(self) -> None:
         pass
 
     def get_inventory(self) -> list[Product]:
@@ -30,23 +30,29 @@ class Inventory:
 
         print("Product not found.")
 
-    def find_product(self, product_id: str) -> Product | None:
+    def find_product(self) -> Product | None:
+        product_id = input("Enter Product ID: ")
         for product in self.__inventory:
             if product.get_product_id() == product_id:
+                print("\nProduct Found:")
+                product.display_information()
+                print(product.get_fulfilment_info()) 
                 return product
 
+        print("Product not found.")
         return None
-
-    def display_all(self):
+    
+    def display_all(self) -> None:
         print("\nCurrent Inventory")
         print("------------------------------------------------")
 
         for product in self.__inventory:
             product.display_information()
-
+            print(product.get_fulfilment_info(), "\n") 
+            
         print("------------------------------------------------")
 
-    def update_stock(self):
+    def update_stock(self) -> None:
         print("\nUpdate Stock")
 
         get_id = input("Enter Product ID: ")
